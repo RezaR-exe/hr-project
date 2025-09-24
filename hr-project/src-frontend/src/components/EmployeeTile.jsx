@@ -1,9 +1,11 @@
-import { Navigate } from 'react-router-dom';
+/* eslint-disable react/prop-types */
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
 function EmployeeTile(props) {
+  const navigate = useNavigate();
   const handleClick = () => {
-    Navigate('/employees');
+    navigate('/employee', { state: { employeeObject: props } });
   };
 
   return (
@@ -13,6 +15,7 @@ function EmployeeTile(props) {
         <h1 className="font-bold mb-4">{props.first_name}</h1>
         <h1 className="font-bold mb-4">{props.last_name}</h1>
         <h1 className="font-bold mb-4">{props.work_email}</h1>
+        <h1 className="font-bold mb-4">{props.user_type}</h1>
       </div>
     </div>
   );

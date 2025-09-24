@@ -2,6 +2,7 @@ import EmployeeTile from '../components/EmployeeTile';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 function DashboardPage() {
   const employees = useSelector((state) => state.employees);
@@ -22,6 +23,7 @@ function DashboardPage() {
         first_name={employee.first_name}
         last_name={employee.last_name}
         work_email={employee.work_email}
+        user_type={employee.user_type}
       />
     );
   });

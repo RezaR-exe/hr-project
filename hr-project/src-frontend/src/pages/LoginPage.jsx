@@ -2,6 +2,7 @@ import { fetchUser } from '../store/thunks/userThunks';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function LoginPage() {
         alert('Invalid credentials');
       }
     } catch (error) {
-      console.log('Login failed');
+      console.log('Login failed' + error);
       alert('Invalid credentials');
     }
   };

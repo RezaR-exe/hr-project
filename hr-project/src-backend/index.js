@@ -41,9 +41,37 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-  
-
 })
+
+app.post("/employeedata", async (req, res) => {
+  const {employeeId, userType, currentlyLoggedEmployeeId} = req.body;
+  try {
+    const user = await db.query('SELECT * FROM employees WHERE id =$1', [employeeId]);
+    if (user.rows.length > 0 ) {
+      if (userType === 'manager') {
+        return res.json({ success: true, user: user.rows[0] });
+        // console.log("I am manager")
+        // console.log(user.rows[0])
+      } else if (userType === 'co-worker') {
+        if (currentlyLoggedEmployeeId === user.rows[0].id) {
+          return res.json({ success: true, user: user.rows[0] });
+          // console.log("I am co-worker and the id that I searched for is mine")
+          // console.log(user.rows[0])
+        } else {
+          return res.json({ success: true, user: { first_name: user.rows[0].first_name, last_name: user.rows[0].last_name, work_email: user.rows[0].work_email } });
+          // console.log("I am co-worker and the id that I searched for is NOT mine")
+          // console.log( { first_name: user.rows[0].first_name, last_name: user.rows[0].last_name, work_email: user.rows[0].work_email })
+        }
+      } else if (userType === 'employee') {
+        return res.json ({ success: false, error: "Access denied, how did you get here? contact me for job"})
+        // console.log("Access denied, how did you get here? contact me for job")
+    }
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+})
+
 
 
 app.listen(port, () => {

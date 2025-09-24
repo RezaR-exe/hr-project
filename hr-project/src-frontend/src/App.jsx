@@ -26,12 +26,6 @@ function App() {
         <Route path="/employee" element={<Employee />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/absences" element={<Absences />} />
-
-        {/* Protect dashboard routes */}
-        {/* <Route
-          path="/dashboard/*"
-          element={user ? <Dashboard /> : <Navigate to="/login" />}
-              /> */}
       </Routes>
     </Router>
   );

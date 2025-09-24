@@ -6,4 +6,16 @@ const fetchEmployees = createAsyncThunk('employees/fetchEmployees', async () => 
   return response.data;
 });
 
-export { fetchEmployees };
+const fetchEmployeeFullData = createAsyncThunk(
+  'employees/fetchEmployeeFullData',
+  async (employeeData) => {
+    const response = await axios.post('http://localhost:8080/employeedata', {
+      employeeId: employeeData.employeeId,
+      userType: employeeData.userType,
+      currentlyLoggedEmployeeId: employeeData.currentlyLoggedEmployeeId,
+    });
+    return response.data;
+  },
+);
+
+export { fetchEmployees, fetchEmployeeFullData };

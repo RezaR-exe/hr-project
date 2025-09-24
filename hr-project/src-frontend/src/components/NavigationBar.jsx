@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { logoutUser } from '../store/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
 function NavigationBar() {
   const [isOpen, setIsOpen] = useState(false);
