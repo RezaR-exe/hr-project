@@ -1,19 +1,23 @@
 import EmployeeTile from '../components/EmployeeTile';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
+import { fetchEmployees } from '../store/thunks/employeesThunks';
 
 function DashboardPage() {
   const employees = useSelector((state) => state.employees);
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (user.isUserLoggedIn === false) {
       navigate('/login');
     }
-  }, [user]);
+
+    dispatch(fetchEmployees());
+  }, [user, dispatch]);
 
   const renderedEmployees = employees.data.map((employee) => {
     return (

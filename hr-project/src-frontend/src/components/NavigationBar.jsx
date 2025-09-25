@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { logoutUser } from '../store/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
 function NavigationBar() {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
 
   const handleNavToggle = () => {
@@ -14,6 +16,10 @@ function NavigationBar() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+  };
+
+  const handleNavigate = (event) => {
+    navigate(`/${event.target.name}`);
   };
 
   return (
@@ -60,11 +66,27 @@ function NavigationBar() {
           <button onClick={handleNavToggle} className="self-end text-gray-500 hover:text-gray-700">
             ✕
           </button>
-          <button className="text-left px-4 py-2 rounded hover:bg-blue-100">Dashbard</button>
-          <button className="text-left px-4 py-2 rounded hover:bg-blue-100">Feedback</button>
-          <button className="text-left px-4 py-2 rounded hover:bg-blue-100">Feedbacks</button>
-          <button className="text-left px-4 py-2 rounded hover:bg-blue-100">Profile</button>
-          <button className="text-left px-4 py-2 rounded hover:bg-blue-100">Settings</button>
+          <button
+            className="text-left px-4 py-2 rounded hover:bg-blue-100"
+            onClick={handleNavigate}
+            name="profile"
+          >
+            Profile
+          </button>
+          <button
+            className="text-left px-4 py-2 rounded hover:bg-blue-100"
+            onClick={handleNavigate}
+            name="dashboard"
+          >
+            Dashboard
+          </button>
+          <button
+            className="text-left px-4 py-2 rounded hover:bg-blue-100"
+            onClick={handleNavigate}
+            name="feedback"
+          >
+            Feedback
+          </button>
         </div>
       </div>
     </div>

@@ -1,18 +1,14 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import EmployeeData from '../components/EmployeeData';
-import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import EmployeeData from '../components/EmployeeData';
 import { fetchEmployeeFullData } from '../store/thunks/employeesThunks';
 import { editEmployeeData } from '../store/thunks/employeesThunks';
 
-function EmployeePage() {
+function ProfilePage() {
   const [accssessedEmployeeData, setAccessedEmployeeData] = useState([]);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const location = useLocation();
-  const employee = location.state.employeeObject;
 
   const handleSaveData = (changedData) => {
     const response = dispatch(
@@ -29,7 +25,7 @@ function EmployeePage() {
       try {
         const response = await dispatch(
           fetchEmployeeFullData({
-            employeeId: employee.employee_id,
+            employeeId: user.data.user.id,
             userType: user.data.user.role,
             currentlyLoggedEmployeeId: user.data.user.id,
           }),
@@ -75,4 +71,4 @@ function EmployeePage() {
   );
 }
 
-export default EmployeePage;
+export default ProfilePage;
