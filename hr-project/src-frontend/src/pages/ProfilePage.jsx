@@ -4,14 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import EmployeeData from '../components/EmployeeData';
 import { fetchEmployeeFullData } from '../store/thunks/employeesThunks';
 import { editEmployeeData } from '../store/thunks/employeesThunks';
+import { useNavigate } from 'react-router-dom';
 
 function ProfilePage() {
   const [accssessedEmployeeData, setAccessedEmployeeData] = useState([]);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSaveData = (changedData) => {
-    const response = dispatch(
+    dispatch(
       editEmployeeData({
         employeeData: changedData,
         requestedUserId: user.data.user.id,
@@ -35,6 +37,10 @@ function ProfilePage() {
         console.log(error);
       }
     };
+
+    if (user.isUserLoggedIn === false) {
+      navigate('/login');
+    }
     loadEmployeeData();
   }, [dispatch, handleSaveData]);
 
@@ -42,7 +48,7 @@ function ProfilePage() {
     <div className="flex justify-center items-center min-h-screen mt-20">
       <div className="flex flex-col justify-center items-center border-2 bg-white p-12 rounded-lg shadow-2xl gap-6">
         <div className="flex w-full justify-between items-center gap-6">
-          <h1 className="text-4xl font-bold mb-12">Employee Page</h1>
+          <h1 className="text-4xl font-bold mb-12">Profile Page</h1>
         </div>
         <div className="flex flex-col justify-center items-center">
           <div className="flex flex-col gap-6 justify-between items-center">

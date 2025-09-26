@@ -19,6 +19,10 @@ function NavigationBar() {
   };
 
   const handleNavigate = (event) => {
+    if (user.isUserLoggedIn === false) {
+      navigate('/login');
+      return;
+    }
     navigate(`/${event.target.name}`);
   };
 
@@ -45,7 +49,7 @@ function NavigationBar() {
             </button>
           </div>
           <div className="flex-grow text-center">
-            <h1 className="text-2xl font-bold">Navigation Bar</h1>
+            <h1 className="text-2xl font-bold">Welcome to HR App</h1>
           </div>
           <div className="flex justify-center mt-2">
             <button
@@ -76,7 +80,7 @@ function NavigationBar() {
           <button
             className="text-left px-4 py-2 rounded hover:bg-blue-100"
             onClick={handleNavigate}
-            name="dashboard"
+            name=""
           >
             Dashboard
           </button>
@@ -86,6 +90,20 @@ function NavigationBar() {
             name="feedback"
           >
             Feedback
+          </button>
+          <button
+            className="text-left px-4 py-2 rounded hover:bg-blue-100"
+            onClick={handleNavigate}
+            name="absences"
+          >
+            Submit Absence
+          </button>
+          <button
+            className="text-left px-4 py-2 rounded hover:bg-blue-100"
+            onClick={handleNavigate}
+            name="user-absences-list"
+          >
+            My Absences
           </button>
         </div>
       </div>

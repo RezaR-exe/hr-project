@@ -15,7 +15,7 @@ function EmployeePage() {
   const employee = location.state.employeeObject;
 
   const handleSaveData = (changedData) => {
-    const response = dispatch(
+    dispatch(
       editEmployeeData({
         employeeData: changedData,
         requestedUserId: user.data.user.id,

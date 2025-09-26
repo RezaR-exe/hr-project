@@ -1,12 +1,23 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitFeedback } from '../store/thunks/feedbackThunk';
+import { useNavigate } from 'react-router-dom';
 
 function FeedbackPage() {
   const user = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [givenFeedback, setGivenFeedback] = useState({});
+
+  useEffect(() => {
+    if (user?.isUserLoggedIn === false) {
+      navigate('/login');
+    } else if (user?.user?.role !== 'co-worker') {
+      alert('Only co-workers can submit feedback.');
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const handleChange = (event) => {
     setGivenFeedback({ ...givenFeedback, [event.target.name]: event.target.value });
@@ -68,7 +79,7 @@ function FeedbackPage() {
                 <option value="4">4 Stars</option>
                 <option value="5">5 Stars</option>
               </select>
-              <h3 className="mt-4">You can also leave a comment below if you'd like:</h3>
+              <h3 className="mt-4">You can also leave a comment below if you would like:</h3>
               <textarea
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
                 id="feedback"

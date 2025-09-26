@@ -158,6 +158,39 @@ app.post("/submitfeedback", async (req, res) => {
   }
 });
 
+app.post("/submitabsence", async (req, res) => {
+  const { absenceType, startDate, endDate, reason, user_id, user_email, user_role } = req.body;
+  try {
+    if (user_role === 'employee') {
+      const response = await db.query('INSERT INTO absences (requested_user_id, requested_user_email, absence_start_date, absence_end_date, absence_type, absence_reason) VALUES ($1, $2, $3, $4, $5, $6)', [user_id, user_email, startDate, endDate, absenceType, reason]);
+      console.log(response)
+      return res.json({ success: true, message: "Absence submitted successfully.", absence: response.rows[0] });
+    } else {
+      return res.status(403).json({ success: false, message: "Only employees can submit absences." });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+})
+
+app.post("/fetchabsences", async (req, res) => {
+  const { user_id, user_role } = req.body;
+  try {
+    if (user_role === 'manager') {
+      const response = await db.query('SELECT * FROM absences');
+      console.log(response)
+      return res.json({ success: true, absences: response.rows });
+    } else {
+      const response = await db.query('SELECT * FROM absences WHERE requested_user_id = $1', [user_id]);
+      console.log(response)
+      return res.json({ success: true, absences: response.rows });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+})
+
+
 
 app.listen(port, () => {
     console.log("listening to port 8080");

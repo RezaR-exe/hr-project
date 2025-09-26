@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function EmployeeData(props) {
   const [editMode, setEditMode] = useState(false);
   const [editedData, setEditedData] = useState({ id: props.id });
+  const user = useSelector((state) => state.user);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -44,6 +46,12 @@ function EmployeeData(props) {
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             onClick={handleEditClick}
+            style={{
+              display:
+                user.data.user.role === 'manager' || user.data.user.id === props.id
+                  ? 'block'
+                  : 'none',
+            }}
           >
             Edit
           </button>
