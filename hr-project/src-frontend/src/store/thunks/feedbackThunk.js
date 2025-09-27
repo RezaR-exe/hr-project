@@ -6,4 +6,9 @@ const submitFeedback = createAsyncThunk('feedback/submitFeedback', async (payloa
   return response.data;
 });
 
-export { submitFeedback };
+const rephraseFeedback = createAsyncThunk('feedback/rephraseFeedback', async (payload) => {
+  const response = await axios.post('http://localhost:8080/paraphrase', payload);
+  return response.data;
+});
+
+export { submitFeedback, rephraseFeedback };

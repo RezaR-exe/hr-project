@@ -12,7 +12,7 @@ const employeesSlice = createSlice({
     builder.addCase('employees/fetchEmployees/fulfilled', (state, action) => {
       state.data = action.payload;
     });
-    builder.addCase('employees/fetchEmployees/pending', (state, action) => {
+    builder.addCase('employees/fetchEmployees/pending', (state) => {
       state.loading = true;
       state.error = null;
     });

@@ -21,7 +21,7 @@ const userSlice = createSlice({
       state.data = action.payload;
       state.isUserLoggedIn = true;
     });
-    builder.addCase('user/fetchUser/pending', (state, action) => {
+    builder.addCase('user/fetchUser/pending', (state) => {
       state.isLoading = true;
       state.error = null;
     });

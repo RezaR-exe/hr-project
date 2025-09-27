@@ -2,6 +2,10 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import pg from "pg";
+import axios from "axios";
+import 'dotenv/config';
+const SAPLING_TOKEN = process.env.SAPLING_TOKEN;
+const HUGGING_FACE_BART_TOKEN = process.env.HUGGING_FACE_BART_TOKEN;
 
 
 const app = express()
@@ -189,6 +193,69 @@ app.post("/fetchabsences", async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 })
+
+app.post("/changeabsencestatus", async (req, res) => {
+  const { absence_id, new_status, user_role } = req.body;
+  try {
+    if (user_role === 'manager') {
+      const response = await db.query('UPDATE absences SET status = $1 WHERE id = $2', [new_status, absence_id]);
+      console.log(response)
+      return res.json({ success: true, message: "Absence status updated successfully." });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+})
+
+// 1. method: sapling ai method
+app.post("/paraphrase", async (req, res) => {
+  const { text } = req.body;
+  try {
+    const response = await axios.post("https://api.sapling.ai/api/v1/rephrase", {
+      key: SAPLING_TOKEN,
+      text,
+      mapping: "informal_to_formal"
+    })
+    return res.json({ result: response.data.results[0].replacement });
+  } catch(error) {
+    console.log(error);
+    return res.status(500).json({ error: error.message });
+  }
+})
+
+// 2. method: hugging face online api endpoint method, it rephrases worse, more like a summarizer, only endpoint found online
+// app.post("/paraphrase", async (req, res) => {
+//   const { text } = req.body;
+//   try {
+//     const response = await axios.post("https://api-inference.huggingface.co/models/facebook/bart-large-cnn", {
+//       inputs: text
+//     },
+//   {
+//     headers: {
+//       Authorization: `Bearer ${HUGGING_FACE_BART_TOKEN}`,
+//       "Content-Type": "application/json"
+//     }
+//   })
+//     return res.json({ result: response.data[0].summary_text });
+//   } catch(error) {
+//     console.log(error);
+//     return res.status(500).json({ error: error.message });
+//   }
+// })
+
+// 3. method: local api model with python server, using tuner007 pegasus paraphraser model, works better than the hugging face online endpoint but worse than sapling ai
+// app.post("/paraphrase", async (req, res) => {
+//   const { text } = req.body;
+//   try {
+//     const response = await axios.post("http://localhost:5000/paraphrase", {
+//       text
+//     })
+//     return res.json({ result: response.data.result });
+//   } catch(error) {
+//     console.log(error);
+//     return res.status(500).json({ error: error.message });
+//   }
+// })
 
 
 

@@ -103,7 +103,7 @@ function NavigationBar() {
             onClick={handleNavigate}
             name="user-absences-list"
           >
-            My Absences
+            Absences
           </button>
         </div>
       </div>

@@ -11,4 +11,9 @@ const fetchAbsences = createAsyncThunk('absences/fetchAbsences', async (payload)
   return response.data;
 });
 
-export { submitAbsence, fetchAbsences };
+const changeAbsenceStatus = createAsyncThunk('absences/changeAbsenceStatus', async (payload) => {
+  const response = await axios.post('http://localhost:8080/changeabsencestatus', payload);
+  return response.data;
+});
+
+export { submitAbsence, fetchAbsences, changeAbsenceStatus };
