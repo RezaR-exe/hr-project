@@ -1,10 +1,10 @@
-HR Project
+# HR Project
 
 A full-stack HR management application built with React (frontend) and Node.js/Express (backend), featuring PostgreSQL for data storage and AI-powered feedback rephrasing.
 
 ---
 
-Instructions to Run the App
+## Instructions to Run the App
 
 ### Prerequisites
 
@@ -12,12 +12,12 @@ Instructions to Run the App
 - Python 3 (for local AI paraphrasing, optional)
 - PostgreSQL database
 
-1. Setup the Database
+### 1. Setup the Database
 
 - Create a PostgreSQL database named `employees`.
 - Create the required tables (`users`, `employees`, `feedbacks`, `absences`) as referenced in the backend code.
 
-2. Backend Setup
+### 2. Backend Setup
 
 ```sh
 cd src-backend
@@ -38,7 +38,7 @@ python rephrase_server.py
 ```
 This will start a Flask server on port 5000.
 
-3. Frontend Setup
+### 3. Frontend Setup
 
 ```sh
 cd src-frontend
@@ -74,6 +74,6 @@ The frontend will run on [http://localhost:5173](http://localhost:5173).
 
 ---
 
-Time spent: 1 week
+**Time spent:** 1 week
 
 ---
