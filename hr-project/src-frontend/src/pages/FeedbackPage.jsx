@@ -6,10 +6,14 @@ import { useNavigate } from 'react-router-dom';
 
 function FeedbackPage() {
   const [isRephrasing, setIsRephrasing] = useState(false);
+  const [checkEmptyText, setCheckEmptyText] = useState(false);
   const user = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [givenFeedback, setGivenFeedback] = useState({});
+  const [givenFeedback, setGivenFeedback] = useState({
+    given_grade: '',
+    feedback: '',
+  });
 
   useEffect(() => {
     if (user?.isUserLoggedIn === false) {
@@ -25,6 +29,12 @@ function FeedbackPage() {
   };
 
   const handleRephrasing = async () => {
+    if (givenFeedback.feedback === undefined || givenFeedback.feedback === '') {
+      setCheckEmptyText(true);
+      return;
+    } else if (givenFeedback.feedback !== '') {
+      setCheckEmptyText(false);
+    }
     setIsRephrasing(true);
     try {
       const response = await dispatch(rephraseFeedback({ text: givenFeedback.feedback })).unwrap();
@@ -51,7 +61,8 @@ function FeedbackPage() {
         alert(response.message);
         return;
       }
-      // alert('Feedback submitted! Thank you for your input.');
+      alert('Feedback submitted! Thank you for your input.');
+      navigate('/');
     } catch (error) {
       console.log(error);
       alert('Only co-workers can submit feedback.');
@@ -90,7 +101,13 @@ function FeedbackPage() {
                 <option value="4">4 Stars</option>
                 <option value="5">5 Stars</option>
               </select>
-              <h3 className="mt-4">You can also leave a comment below if you would like:</h3>
+              <h3 className="mt-4">Leave your comment below:</h3>
+              {isRephrasing && (
+                <span className="ml-2 animate-spin rounded-full border-2 border-t-2 border-white h-5 w-5 inline-block border-t-green-300 mr-4 relative"></span>
+              )}
+              {checkEmptyText && (
+                <p className="text-red-500">Please enter some feedback before rephrasing.</p>
+              )}
               <textarea
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
                 id="feedback"
@@ -106,10 +123,8 @@ function FeedbackPage() {
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
                   onClick={handleRephrasing}
                   disabled={isRephrasing}
+                  type="button"
                 >
-                  {isRephrasing && (
-                    <span className="ml-2 animate-spin rounded-full border-2 border-t-2 border-white h-5 w-5 inline-block border-t-green-300 mr-4 relative"></span>
-                  )}
                   <p className="relative">Rephrase using AI</p>
                 </button>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
