@@ -32,7 +32,6 @@ A full-stack HR management application built with React (frontend) and Node.js/E
 | first_name     | VARCHAR   |                            |
 | last_name      | VARCHAR   |                            |
 | work_email     | VARCHAR   |                            |
-| ...            | ...       | (add any other fields used in your app) |
 
 #### Table: `feedbacks`
 | Column           | Type      | Description                |
@@ -54,8 +53,6 @@ A full-stack HR management application built with React (frontend) and Node.js/E
 | absence_type         | VARCHAR   | e.g. 'sick', 'vacation'    |
 | absence_reason       | VARCHAR   |                            |
 | status               | VARCHAR   | e.g. 'pending', 'approved' |
-
-> **Note:** You may need to adjust/add columns based on your actual implementation.
 
 ### 2. Backend Setup
 
