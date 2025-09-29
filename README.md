@@ -15,7 +15,47 @@ A full-stack HR management application built with React (frontend) and Node.js/E
 ### 1. Setup the Database
 
 - Create a PostgreSQL database named `employees`.
-- Create the required tables (`users`, `employees`, `feedbacks`, `absences`) as referenced in the backend code.
+- Create the required tables (`users`, `employees`, `feedbacks`, `absences`) as referenced in the backend code with these columns.
+
+#### Table: `users`
+| Column    | Type      | Description           |
+|-----------|-----------|----------------------|
+| id        | SERIAL    | Primary key          |
+| email     | VARCHAR   | User login email     |
+| password  | VARCHAR   | Plaintext password\* |
+| role      | VARCHAR   | 'manager', 'employee', 'co-worker' |
+
+#### Table: `employees`
+| Column         | Type      | Description                |
+|----------------|-----------|----------------------------|
+| id             | SERIAL    | Primary key                |
+| first_name     | VARCHAR   |                            |
+| last_name      | VARCHAR   |                            |
+| work_email     | VARCHAR   |                            |
+| ...            | ...       | (add any other fields used in your app) |
+
+#### Table: `feedbacks`
+| Column           | Type      | Description                |
+|------------------|-----------|----------------------------|
+| id               | SERIAL    | Primary key                |
+| from_user_id     | INTEGER   | FK to users.id             |
+| from_user_email  | VARCHAR   |                            |
+| given_grade      | INTEGER   |                            |
+| given_feedback   | VARCHAR   |                            |
+
+#### Table: `absences`
+| Column               | Type      | Description                |
+|----------------------|-----------|----------------------------|
+| id                   | SERIAL    | Primary key                |
+| requested_user_id    | INTEGER   | FK to users.id             |
+| requested_user_email | VARCHAR   |                            |
+| absence_start_date   | DATE      |                            |
+| absence_end_date     | DATE      |                            |
+| absence_type         | VARCHAR   | e.g. 'sick', 'vacation'    |
+| absence_reason       | VARCHAR   |                            |
+| status               | VARCHAR   | e.g. 'pending', 'approved' |
+
+> **Note:** You may need to adjust/add columns based on your actual implementation.
 
 ### 2. Backend Setup
 
